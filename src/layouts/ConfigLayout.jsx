@@ -5,8 +5,8 @@ const ConfigLayout = ({ children, title, onStart, startLabel = "EMPEZAR" }) => {
     <div className="h-screen flex flex-col bg-white dark:bg-black text-black dark:text-white transition-colors duration-300 overflow-hidden font-mono">
       <GlobalHeader title={title} showBack={true} />
 
-      <main className="flex-1 overflow-auto flex flex-col items-center justify-center p-6 pb-24">
-        <div className="w-full max-w-xl border border-black dark:border-white p-6">
+      <main className="flex-1 overflow-auto flex flex-col items-center justify-start p-6 pt-10">
+        <div className="w-full max-w-4xl">
           {children}
         </div>
       </main>

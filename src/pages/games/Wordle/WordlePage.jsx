@@ -7,13 +7,24 @@ import { WORDS_ES } from '../../../data/words_es'
 import { AlertCircle } from 'lucide-react'
 import LengthSelector from '../../../components/games/Wordle/LengthSelector'
 import VisualKeyboard from '../../../components/games/Wordle/VisualKeyboard'
+import DifficultySelector from '../../../components/games/Wordle/DifficultySelector'
 
 const WordlePage = () => {
   const [gameState, setGameState] = useState('setup') // 'setup' | 'playing'
   const [wordLength, setWordLength] = useState(5)
+  const [difficulty, setDifficulty] = useState('normal')
   const [solution, setSolution] = useState('')
 
+  const difficulties = [
+    { id: 'easy', name: 'Fácil', rows: 8 },
+    { id: 'normal', name: 'Normal', rows: 6 },
+    { id: 'hard', name: 'Difícil', rows: 4 }
+  ]
+
   const dictionary = useMemo(() => WORDS_ES[wordLength] || [], [wordLength])
+  const maxAttempts = useMemo(() => {
+    return difficulties.find(d => d.id === difficulty)?.rows || 6
+  }, [difficulty])
 
   const { 
     currentGuess, 
@@ -24,7 +35,7 @@ const WordlePage = () => {
     handleKeyUp, 
     resetGame,
     usedLetters
-  } = useWordle(solution, wordLength, dictionary)
+  } = useWordle(solution, wordLength, dictionary, maxAttempts)
 
   const startGame = useCallback(() => {
     const words = WORDS_ES[wordLength]
@@ -60,12 +71,23 @@ const WordlePage = () => {
         onStart={startGame}
         startLabel="EMPEZAR"
       >
-        <div className="space-y-12 py-10">
-          <div className="space-y-4">
-            <h2 className="text-xl font-black uppercase tracking-widest border-l-4 border-black dark:border-white pl-4">Ajustes</h2>
-            <p className="text-xs font-bold uppercase opacity-50">Configurar parámetros de partida</p>
+        <div className="flex flex-col gap-8">
+          {/* Fila 1: Encabezado de Ajustes */}
+          <div className="pt-8 pb-10 px-2 space-y-1">
+            <h2 className="text-2xl font-black uppercase tracking-widest">
+              AJUSTES_DE_PARTIDA
+            </h2>
+            <p className="text-xs font-bold uppercase opacity-40">Personaliza tu experiencia de juego</p>
           </div>
 
+          {/* Fila 2: Dificultad */}
+          <DifficultySelector 
+            levels={difficulties}
+            currentLevel={difficulty}
+            onChange={setDifficulty}
+          />
+
+          {/* Fila 3: Longitud */}
           <LengthSelector 
             lengths={[3, 4, 5, 6, 7, 8]}
             currentLength={wordLength}
@@ -77,7 +99,7 @@ const WordlePage = () => {
   }
 
   return (
-    <GameLayout title="Wordle" onReset={onReset}>
+    <GameLayout title="Wordle" onReset={onReset} onSettings={goToSetup}>
       <div className="flex-1 overflow-auto w-full max-w-5xl mx-auto flex flex-col items-center justify-center gap-10 py-8 animate-in fade-in duration-700">
         {/* Fila 1: Tablero */}
         <div className="relative group flex flex-col items-center">
@@ -85,6 +107,7 @@ const WordlePage = () => {
             guesses={guesses} 
             currentGuess={currentGuess} 
             length={wordLength}
+            maxAttempts={maxAttempts}
           />
           
           {isGameOver && (

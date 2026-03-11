@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react'
 
-const useWordle = (solution, length = 5, dictionary = []) => {
+const useWordle = (solution, length = 5, dictionary = [], maxAttempts = 6) => {
   const [currentGuess, setCurrentGuess] = useState('')
   const [guesses, setGuesses] = useState([])
   const [isGameOver, setIsGameOver] = useState(false)
@@ -38,10 +38,10 @@ const useWordle = (solution, length = 5, dictionary = []) => {
     if (currentGuess.toUpperCase() === solution.toUpperCase()) {
       setIsWinner(true)
       setIsGameOver(true)
-    } else if (updatedGuesses.length >= 6) {
+    } else if (updatedGuesses.length >= maxAttempts) {
       setIsGameOver(true)
     }
-  }, [currentGuess, guesses, solution])
+  }, [currentGuess, guesses, solution, maxAttempts])
 
   const handleKeyUp = useCallback(({ key }) => {
     if (isGameOver) return
