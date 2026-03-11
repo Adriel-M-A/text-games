@@ -4,7 +4,7 @@ import GlobalHeader from '../components/layout/GlobalHeader'
 const Home = () => {
   const games = [
     { id: 1, name: 'WORDLE', description: 'Adivina la palabra secreta de N letras', path: '/wordle' },
-    { id: 2, name: 'SOPA_DE_LETRAS', description: 'Encuentra las palabras ocultas', disabled: true },
+    { id: 2, name: 'CHRONO_GUESSR', description: 'Descubre la fecha secreta DD-MM-AAAA', path: '/chrono' },
     { id: 3, name: 'SUDOKU', description: 'El clásico desafío matemático', disabled: true },
     { id: 4, name: 'CRUCIGRAMA', description: 'Completa las palabras cruzadas', disabled: true }
   ]
