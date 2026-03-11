@@ -91,12 +91,17 @@ const ChronoPage = () => {
             levels={difficulties}
             currentLevel={difficulty}
             onChange={setDifficulty}
+            unit="INTENTOS"
           />
 
-          <div className="px-2">
-            <div className="p-6 border-2 border-black dark:border-white text-center space-y-2">
-              <h3 className="font-black uppercase tracking-tighter">Formato de Fecha</h3>
-              <p className="text-xs font-bold uppercase opacity-50">Día - Mes - Año (8 dígitos)</p>
+          {/* Fila 3: Información de Formato */}
+          <div className="w-full flex items-center justify-between border-b border-black dark:border-white py-6 px-2 font-mono">
+            <div className="flex flex-col">
+              <span className="text-sm font-bold uppercase tracking-widest">Formato</span>
+              <span className="text-[10px] opacity-40 uppercase font-black">estructura de fecha</span>
+            </div>
+            <div className="text-sm font-black uppercase tracking-widest">
+              DD - MM - AAAA
             </div>
           </div>
         </div>

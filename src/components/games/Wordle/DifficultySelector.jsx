@@ -1,4 +1,4 @@
-const DifficultySelector = ({ levels, currentLevel, onChange }) => {
+const DifficultySelector = ({ levels, currentLevel, onChange, unit = "FILAS" }) => {
   return (
     <div className="w-full flex items-center justify-between border-b border-black dark:border-white py-4 px-2 font-mono">
       <div className="flex flex-col">
@@ -18,7 +18,7 @@ const DifficultySelector = ({ levels, currentLevel, onChange }) => {
             `}
           >
             <span className="text-xs font-black uppercase whitespace-nowrap">{level.name}</span>
-            <span className="text-[10px] opacity-60 font-black whitespace-nowrap">{level.rows} FILAS</span>
+            <span className="text-[10px] opacity-60 font-black whitespace-nowrap">{level.rows} {unit}</span>
           </button>
         ))}
       </div>
