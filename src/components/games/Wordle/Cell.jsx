@@ -1,4 +1,4 @@
-const Cell = ({ letter = '', status = 'empty', isFocused = false }) => {
+const Cell = ({ letter = '', status = 'empty', isFocused = false, size = '3.5rem' }) => {
   const statusStyles = {
     empty: 'border-black/10 dark:border-white/10 bg-transparent text-black dark:text-white',
     correct: 'bg-green-600 dark:bg-green-500 border-green-700 dark:border-green-400 text-white dark:text-black font-black',
@@ -15,11 +15,16 @@ const Cell = ({ letter = '', status = 'empty', isFocused = false }) => {
   return (
     <div 
       className={`
-        w-14 h-14 sm:w-16 sm:h-16 border flex items-center justify-center 
-        text-2xl sm:text-3xl font-bold uppercase transition-all duration-75
+        border flex items-center justify-center 
+        font-bold uppercase transition-all duration-75
         ${statusStyles[status]}
         ${focusStyles}
       `}
+      style={{ 
+        width: size, 
+        height: size,
+        fontSize: `calc(${size} * 0.5)`
+      }}
     >
       {letter}
     </div>

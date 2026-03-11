@@ -1,6 +1,6 @@
 import Cell from './Cell'
 
-const Row = ({ word = '', result = [], length = 5, isCurrentRow = false }) => {
+const Row = ({ word = '', result = [], length = 5, isCurrentRow = false, cellSize }) => {
   const letters = word.split('')
   const cells = []
 
@@ -16,12 +16,13 @@ const Row = ({ word = '', result = [], length = 5, isCurrentRow = false }) => {
         letter={letter} 
         status={status} 
         isFocused={isFocused} 
+        size={cellSize}
       />
     )
   }
 
   return (
-    <div className="flex gap-1.5">
+    <div className="flex gap-1.5" style={{ gap: `calc(${cellSize} * 0.1)` }}>
       {cells}
     </div>
   )
