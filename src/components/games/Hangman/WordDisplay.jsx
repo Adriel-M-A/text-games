@@ -1,5 +1,5 @@
-const WordDisplay = ({ word, guessedLetters, revealFullWord = false }) => {
-  const letters = word.toUpperCase().split('')
+const WordDisplay = ({ word = '', guessedLetters = [], revealFullWord = false }) => {
+  const letters = (word || '').toUpperCase().split('')
 
   return (
     <div className="flex gap-2 sm:gap-4 flex-wrap justify-center">

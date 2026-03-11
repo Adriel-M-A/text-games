@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import GameLayout from '../layouts/GameLayout';
 import ConfigLayout from '../layouts/ConfigLayout';
 import { useHangmanContext, HangmanProvider } from '../context/HangmanContext';
@@ -6,57 +6,43 @@ import HangmanDrawing from '../components/games/Hangman/HangmanDrawing';
 import WordDisplay from '../components/games/Hangman/WordDisplay';
 import LetterKeyboard from '../components/games/Hangman/LetterKeyboard';
 import DifficultySelector from '../components/games/Wordle/DifficultySelector';
+import GameOverModal from '../components/common/GameOverModal';
 
 const HangmanContent = () => {
   const {
     gameState,
-    setGameState,
     difficulty,
-    setDifficulty,
     solution,
     guessedLetters,
     mistakes,
+    difficulties,
+    setDifficulty,
+    customWord,
+    setCustomWord,
     startGame,
     resetGame,
     guessLetter,
     isWinner,
-    isGameOver,
+    goToSetup
   } = useHangmanContext();
 
-  const [customWord, setCustomWord] = useState('');
-
-  const difficulties = [
-    { id: 'easy', name: 'Fácil', rows: '1 PALABRA' },
-    { id: 'normal', name: 'Normal', rows: '2 PALABRAS' },
-    { id: 'hard', name: 'Difícil', rows: '3 PALABRAS' },
-  ];
-
-  const handleStart = () => {
-    startGame(customWord);
-  };
-
-  const goToSetup = () => {
-    setGameState('setup');
-    setCustomWord('');
-  };
-
   useEffect(() => {
-    if (gameState !== 'playing' || isGameOver) return;
+    if (gameState !== 'playing') return;
 
-    const handleKeyDown = (e) => {
-      const key = e.key.toUpperCase();
-      if (/^[A-ZÑ]$/.test(key)) {
-        guessLetter(key);
+    const handleKeyDown = (event) => {
+      const char = event.key.toLowerCase();
+      if (/^[a-zñ]$/.test(char)) {
+        guessLetter(char);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameState, isGameOver, guessLetter]);
+  }, [gameState, guessLetter]);
 
   if (gameState === 'setup') {
     return (
-      <ConfigLayout title="Hangman" onStart={handleStart} startLabel="INICIAR PARTIDA">
+      <ConfigLayout title="Hangman" onStart={() => startGame(customWord)} startLabel="INICIAR PARTIDA">
         <div className="flex flex-col gap-8">
           <div className="pt-8 pb-10 px-2 space-y-1">
             <h2 className="text-2xl font-black uppercase tracking-widest">AJUSTES_DE_PARTIDA</h2>
@@ -102,51 +88,39 @@ const HangmanContent = () => {
 
   return (
     <GameLayout title="Hangman" onReset={resetGame} onSettings={goToSetup}>
-      <div className="flex-1 w-full max-w-5xl mx-auto flex flex-col items-center justify-between py-6 gap-8 animate-in fade-in duration-700 overflow-auto">
-        <div className="flex flex-col items-center gap-10 w-full shrink-0">
-          <HangmanDrawing numberOfMistakes={mistakes} />
-          <WordDisplay
-            word={solution}
-            guessedLetters={guessedLetters}
-            revealFullWord={isGameOver && !isWinner}
-          />
-        </div>
-
-        <div className="flex flex-col items-center gap-6 w-full shrink-0 pb-4">
-          <LetterKeyboard
-            word={solution}
-            guessedLetters={guessedLetters}
-            onGuess={guessLetter}
-            disabled={isGameOver}
-          />
-        </div>
-
-        {isGameOver && (
-          <div className="fixed inset-0 flex items-center justify-center bg-white/40 dark:bg-black/40 backdrop-blur-[1px] animate-in zoom-in duration-300 z-50 p-4">
-            <div className="bg-white dark:bg-black p-8 border-4 border-black dark:border-white text-center shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_0px_rgba(255,255,255,1)] max-w-sm w-full">
-              <h2 className="text-4xl font-black mb-2 uppercase tracking-tighter">
-                {isWinner ? '¡SALVADO!' : '¡AHORCADO!'}
-              </h2>
-              <p className="text-sm font-bold mb-6 border-b-2 border-black dark:border-white pb-2 uppercase italic">
-                {isWinner ? 'Palabra descubierta' : `La palabra era: ${solution.toUpperCase()}`}
-              </p>
-              <div className="flex flex-col gap-3">
-                <button
-                  onClick={resetGame}
-                  className="w-full px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-black uppercase transition-all active:scale-95"
-                >
-                  OTRA PARTIDA
-                </button>
-                <button
-                  onClick={goToSetup}
-                  className="w-full px-6 py-3 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black font-black uppercase transition-all active:scale-95 border-2 border-black dark:border-white"
-                >
-                  VOLVER AL INICIO
-                </button>
-              </div>
-            </div>
+      <div className="flex-1 w-full max-w-5xl mx-auto flex flex-col items-center justify-start gap-10 py-10 px-4 overflow-auto animate-in fade-in duration-700">
+        
+        {/* Fila 1: El Muñeco (Más pequeño) */}
+        <div className="relative w-full flex items-center justify-center shrink-0">
+          <div className="w-48 h-60 flex items-center justify-center">
+            <HangmanDrawing numberOfMistakes={mistakes} />
           </div>
+        </div>
+
+        {gameState === 'gameOver' && (
+          <GameOverModal 
+            isWinner={isWinner}
+            solution={solution}
+            onRestart={resetGame}
+            onSettings={goToSetup}
+          />
         )}
+
+        {/* Fila 2: La Palabra */}
+        <div className="w-full flex items-center justify-center py-4">
+          <WordDisplay word={solution} guessedLetters={guessedLetters} />
+        </div>
+
+        {/* Fila 3: El Teclado */}
+        <div className="w-full max-w-3xl flex items-center justify-center mt-auto pb-6">
+          <LetterKeyboard
+            guessedLetters={guessedLetters}
+            word={solution}
+            onGuess={guessLetter}
+            disabled={gameState !== 'playing'}
+          />
+        </div>
+
       </div>
     </GameLayout>
   );

@@ -12,12 +12,19 @@ export const useHangmanContext = () => {
 };
 
 export const HangmanProvider = ({ children }) => {
-  const [gameState, setGameState] = useState('setup'); // 'setup', 'playing'
+  const [gameState, setGameState] = useState('setup'); // 'setup', 'playing', 'gameOver'
   const [difficulty, setDifficulty] = useState('easy');
   const [solution, setSolution] = useState('');
   const [guessedLetters, setGuessedLetters] = useState([]);
   const [mistakes, setMistakes] = useState(0);
+  const [customWord, setCustomWord] = useState('');
   const maxMistakes = 6;
+
+  const difficulties = [
+    { id: 'easy', name: 'Fácil', rows: '1 PALABRA' },
+    { id: 'normal', name: 'Normal', rows: '2 PALABRAS' },
+    { id: 'hard', name: 'Difícil', rows: '3 PALABRAS' },
+  ];
 
   const generatePhrase = useCallback((level) => {
     const { articles, nouns, adjectives } = HANGMAN_DATA;
@@ -29,8 +36,8 @@ export const HangmanProvider = ({ children }) => {
     return getRand(nouns);
   }, []);
 
-  const startGame = useCallback((customWord = '') => {
-    const wordToUse = customWord.trim() ? customWord : generatePhrase(difficulty);
+  const startGame = useCallback((manualWord = '') => {
+    const wordToUse = manualWord.trim() ? manualWord : generatePhrase(difficulty);
     setSolution(wordToUse.toUpperCase());
     setGuessedLetters([]);
     setMistakes(0);
@@ -38,22 +45,37 @@ export const HangmanProvider = ({ children }) => {
   }, [difficulty, generatePhrase]);
 
   const resetGame = useCallback(() => {
-    const newSolution = generatePhrase(difficulty);
-    setSolution(newSolution.toUpperCase());
+    startGame(customWord);
+  }, [startGame, customWord]);
+
+  const goToSetup = useCallback(() => {
+    setGameState('setup');
     setGuessedLetters([]);
     setMistakes(0);
-  }, [difficulty, generatePhrase]);
+  }, []);
 
   const guessLetter = useCallback((letter) => {
+    if (gameState !== 'playing') return;
     const upperLetter = letter.toUpperCase();
     if (guessedLetters.includes(upperLetter)) return;
 
-    setGuessedLetters((prev) => [...prev, upperLetter]);
+    const newGuessed = [...guessedLetters, upperLetter];
+    setGuessedLetters(newGuessed);
 
     if (!solution.includes(upperLetter)) {
-      setMistakes((prev) => prev + 1);
+      const newMistakes = mistakes + 1;
+      setMistakes(newMistakes);
+      if (newMistakes >= maxMistakes) {
+        setGameState('gameOver');
+      }
+    } else {
+      // Check win
+      const charArray = solution.split('').filter((char) => char !== ' ');
+      if (charArray.every((l) => newGuessed.includes(l))) {
+        setGameState('gameOver');
+      }
     }
-  }, [guessedLetters, solution]);
+  }, [guessedLetters, solution, mistakes, gameState]);
 
   const isWinner = useMemo(() => {
     if (!solution) return false;
@@ -61,25 +83,22 @@ export const HangmanProvider = ({ children }) => {
     return charArray.every((letter) => guessedLetters.includes(letter));
   }, [solution, guessedLetters]);
 
-  const isGameOver = useMemo(() => {
-    return mistakes >= maxMistakes || isWinner;
-  }, [mistakes, isWinner]);
-
   const value = {
     gameState,
-    setGameState,
     difficulty,
     setDifficulty,
     solution,
-    setSolution,
     guessedLetters,
     mistakes,
     maxMistakes,
+    customWord,
+    setCustomWord,
+    difficulties,
     startGame,
     resetGame,
+    goToSetup,
     guessLetter,
     isWinner,
-    isGameOver,
   };
 
   return (

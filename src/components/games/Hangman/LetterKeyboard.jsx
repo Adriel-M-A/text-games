@@ -1,7 +1,7 @@
 const ALPHABET = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('')
 
-const LetterKeyboard = ({ guessedLetters, word, onGuess, disabled = false }) => {
-  const wordInUpper = word.toUpperCase()
+const LetterKeyboard = ({ guessedLetters = [], word = '', onGuess, disabled = false }) => {
+  const wordInUpper = (word || '').toUpperCase()
 
   return (
     <div className="grid grid-cols-7 sm:grid-cols-9 gap-1.5 w-full max-w-2xl px-2">
