@@ -8,7 +8,7 @@ const LengthSelector = ({ lengths, currentLength, onChange }) => {
             key={len}
             onClick={() => onChange(len)}
             className={`
-              w-10 h-10 border flex items-center justify-center text-sm font-bold transition-all
+              w-12 h-12 border flex items-center justify-center text-base font-bold transition-all
               ${currentLength === len 
                 ? 'bg-black text-white dark:bg-white dark:text-black border-black dark:border-white' 
                 : 'border-gray-300 dark:border-gray-700 text-gray-400 hover:border-black dark:hover:border-white'}

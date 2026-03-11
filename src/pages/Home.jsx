@@ -1,10 +1,7 @@
 import { Link } from 'react-router-dom'
-import { Sun, Moon } from 'lucide-react'
-import { useTheme } from '../context/ThemeContext'
-import IconButton from '../components/ui/IconButton'
+import GlobalHeader from '../components/layout/GlobalHeader'
 
 const Home = () => {
-  const { isDark, toggleTheme } = useTheme()
   const games = [
     { id: 1, name: 'WORDLE', description: 'Adivina la palabra secreta de N letras', path: '/wordle' },
     { id: 2, name: 'SOPA_DE_LETRAS', description: 'Encuentra las palabras ocultas', disabled: true },
@@ -14,18 +11,7 @@ const Home = () => {
 
   return (
     <div className="h-screen flex flex-col bg-white dark:bg-black text-black dark:text-white transition-none font-mono overflow-hidden">
-      {/* Header */}
-      <header className="h-16 flex items-center justify-between px-6 border-b-2 border-black dark:border-white shrink-0">
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-xl tracking-tight uppercase">TEXT_GAMES</span>
-        </div>
-        
-        <IconButton 
-          icon={isDark ? Sun : Moon}
-          onClick={toggleTheme}
-          title={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-        />
-      </header>
+      <GlobalHeader />
 
       {/* Main */}
       <main className="flex-1 overflow-auto flex flex-col items-center py-12 px-6">

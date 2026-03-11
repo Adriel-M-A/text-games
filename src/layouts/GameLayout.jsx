@@ -1,5 +1,5 @@
 import { RotateCcw } from 'lucide-react'
-import GameHeader from '../components/layout/GameHeader'
+import GlobalHeader from '../components/layout/GlobalHeader'
 import IconButton from '../components/ui/IconButton'
 
 const GameLayout = ({ children, title, onReset }) => {
@@ -13,7 +13,7 @@ const GameLayout = ({ children, title, onReset }) => {
 
   return (
     <div className="h-screen flex flex-col bg-white dark:bg-black text-black dark:text-white transition-colors duration-300 overflow-hidden font-mono">
-      <GameHeader title={title} actionButton={ResetButton} />
+      <GlobalHeader title={title} showBack={true} actionButton={ResetButton} />
 
       <main className="flex-1 overflow-auto flex flex-col items-center justify-center p-6 bg-white dark:bg-black">
         {children}

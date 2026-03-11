@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 
 const useWordle = (solution, length = 5, dictionary = []) => {
   const [currentGuess, setCurrentGuess] = useState('')
@@ -80,7 +80,24 @@ const useWordle = (solution, length = 5, dictionary = []) => {
     setError(null)
   }, [])
 
-  return { currentGuess, guesses, isGameOver, isWinner, error, handleKeyUp, resetGame }
+  const usedLetters = useMemo(() => {
+    const letters = {}
+    guesses.forEach(guess => {
+      guess.word.toUpperCase().split('').forEach((letter, i) => {
+        const status = guess.result[i]
+        
+        // Si ya es 'correct' o 'present', lo marcamos como 'correct' para el teclado (verde)
+        if (status === 'correct' || status === 'present') {
+          letters[letter] = 'correct'
+        } else if (status === 'absent' && letters[letter] !== 'correct') {
+          letters[letter] = 'absent'
+        }
+      })
+    })
+    return letters
+  }, [guesses])
+
+  return { currentGuess, guesses, isGameOver, isWinner, error, handleKeyUp, resetGame, usedLetters }
 }
 
 export default useWordle

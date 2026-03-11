@@ -6,6 +6,7 @@ import useWordle from '../../../hooks/useWordle'
 import { WORDS_ES } from '../../../data/words_es'
 import { AlertCircle } from 'lucide-react'
 import LengthSelector from '../../../components/games/Wordle/LengthSelector'
+import VisualKeyboard from '../../../components/games/Wordle/VisualKeyboard'
 
 const WordlePage = () => {
   const [gameState, setGameState] = useState('setup') // 'setup' | 'playing'
@@ -21,7 +22,8 @@ const WordlePage = () => {
     isWinner, 
     error, 
     handleKeyUp, 
-    resetGame 
+    resetGame,
+    usedLetters
   } = useWordle(solution, wordLength, dictionary)
 
   const startGame = useCallback(() => {
@@ -76,8 +78,9 @@ const WordlePage = () => {
 
   return (
     <GameLayout title="Wordle" onReset={onReset}>
-      <div className="flex flex-col items-center space-y-8 animate-in fade-in duration-700">
-        <div className="relative group">
+      <div className="flex-1 overflow-auto w-full max-w-5xl mx-auto flex flex-col items-center justify-center gap-10 py-8 animate-in fade-in duration-700">
+        {/* Fila 1: Tablero */}
+        <div className="relative group flex flex-col items-center">
           <BoardWordle 
             guesses={guesses} 
             currentGuess={currentGuess} 
@@ -112,19 +115,26 @@ const WordlePage = () => {
           )}
         </div>
 
-        {error && (
-          <div className="flex items-center gap-2 px-6 py-2 border-2 border-black dark:border-white text-black dark:text-white font-black uppercase tracking-tighter animate-pulse">
-            <AlertCircle size={16} />
-            <span>{error}</span>
-          </div>
-        )}
+        {/* Fila 2: Teclado y Mensajes */}
+        <div className="flex flex-col items-center gap-6 w-full">
+          <VisualKeyboard usedLetters={usedLetters} />
 
-        {!isGameOver && (
-          <div className="max-w-md text-center space-y-2">
-            <p className="text-[10px] font-black uppercase tracking-widest opacity-40">Guía de Uso</p>
-            <p className="text-xs font-bold uppercase tracking-tighter">Escribe y pulsa [ENTER] para validar</p>
+          <div className="flex flex-col items-center gap-2 min-h-[50px]">
+            {error && (
+              <div className="flex items-center gap-2 px-6 py-2 border-2 border-black dark:border-white text-black dark:text-white font-black uppercase tracking-tighter animate-pulse">
+                <AlertCircle size={16} />
+                <span>{error}</span>
+              </div>
+            )}
+
+            {!isGameOver && !error && (
+              <div className="max-w-md text-center space-y-2">
+                <p className="text-[10px] font-black uppercase tracking-widest opacity-40">Guía de Uso</p>
+                <p className="text-xs font-bold uppercase tracking-tighter">Escribe y pulsa [ENTER] para validar</p>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </GameLayout>
   )

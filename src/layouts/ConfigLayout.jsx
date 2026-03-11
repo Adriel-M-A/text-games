@@ -1,9 +1,9 @@
-import GameHeader from '../components/layout/GameHeader'
+import GlobalHeader from '../components/layout/GlobalHeader'
 
 const ConfigLayout = ({ children, title, onStart, startLabel = "EMPEZAR" }) => {
   return (
     <div className="h-screen flex flex-col bg-white dark:bg-black text-black dark:text-white transition-colors duration-300 overflow-hidden font-mono">
-      <GameHeader title={title} />
+      <GlobalHeader title={title} showBack={true} />
 
       <main className="flex-1 overflow-auto flex flex-col items-center justify-center p-6 pb-24">
         <div className="w-full max-w-xl border border-black dark:border-white p-6">
