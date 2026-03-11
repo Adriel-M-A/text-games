@@ -5,8 +5,9 @@ const Home = () => {
   const games = [
     { id: 1, name: 'WORDLE', description: 'Adivina la palabra secreta de N letras', path: '/wordle' },
     { id: 2, name: 'CHRONO_GUESSR', description: 'Descubre la fecha secreta DD-MM-AAAA', path: '/chrono' },
-    { id: 3, name: 'SUDOKU', description: 'El clásico desafío matemático', disabled: true },
-    { id: 4, name: 'CRUCIGRAMA', description: 'Completa las palabras cruzadas', disabled: true }
+    { id: 3, name: 'HANGMAN', description: 'El clásico juego del ahorcado', path: '/hangman' },
+    { id: 4, name: 'SUDOKU', description: 'El clásico desafío matemático', disabled: true },
+    { id: 5, name: 'CRUCIGRAMA', description: 'Completa las palabras cruzadas', disabled: true }
   ]
 
   return (
