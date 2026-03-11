@@ -1,13 +1,13 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
-import GameLayout from '../../../layouts/GameLayout'
-import ConfigLayout from '../../../layouts/ConfigLayout'
-import BoardChrono from '../../../components/games/ChronoGuessr/BoardChrono'
-import useChronoGuessr from '../../../hooks/useChronoGuessr'
-import NumericKeyboard from '../../../components/games/ChronoGuessr/NumericKeyboard'
-import DifficultySelector from '../../../components/games/Wordle/DifficultySelector'
+import GameLayout from '../layouts/GameLayout'
+import ConfigLayout from '../layouts/ConfigLayout'
+import BoardChrono from '../components/games/ChronoGuessr/BoardChrono'
+import useChronoGuessr from '../hooks/useChronoGuessr'
+import NumericKeyboard from '../components/games/ChronoGuessr/NumericKeyboard'
+import DifficultySelector from '../components/games/Wordle/DifficultySelector'
 import { AlertCircle } from 'lucide-react'
 
-const ChronoPage = () => {
+const Chrono = () => {
   const [gameState, setGameState] = useState('setup') // 'setup' | 'playing'
   const [difficulty, setDifficulty] = useState('normal')
   const [solution, setSolution] = useState('')
@@ -174,4 +174,4 @@ const ChronoPage = () => {
   )
 }
 
-export default ChronoPage
+export default Chrono

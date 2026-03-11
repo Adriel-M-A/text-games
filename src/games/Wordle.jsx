@@ -1,15 +1,15 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
-import GameLayout from '../../../layouts/GameLayout'
-import ConfigLayout from '../../../layouts/ConfigLayout'
-import BoardWordle from '../../../components/games/Wordle/BoardWordle'
-import useWordle from '../../../hooks/useWordle'
-import { WORDS_ES } from '../../../data/words_es'
+import GameLayout from '../layouts/GameLayout'
+import ConfigLayout from '../layouts/ConfigLayout'
+import BoardWordle from '../components/games/Wordle/BoardWordle'
+import useWordle from '../hooks/useWordle'
+import { WORDS_ES } from '../data/words_es'
 import { AlertCircle } from 'lucide-react'
-import LengthSelector from '../../../components/games/Wordle/LengthSelector'
-import VisualKeyboard from '../../../components/games/Wordle/VisualKeyboard'
-import DifficultySelector from '../../../components/games/Wordle/DifficultySelector'
+import LengthSelector from '../components/games/Wordle/LengthSelector'
+import VisualKeyboard from '../components/games/Wordle/VisualKeyboard'
+import DifficultySelector from '../components/games/Wordle/DifficultySelector'
 
-const WordlePage = () => {
+const Wordle = () => {
   const [gameState, setGameState] = useState('setup') // 'setup' | 'playing'
   const [wordLength, setWordLength] = useState(5)
   const [difficulty, setDifficulty] = useState('normal')
@@ -163,4 +163,4 @@ const WordlePage = () => {
   )
 }
 
-export default WordlePage
+export default Wordle

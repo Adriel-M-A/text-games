@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import GameLayout from '../../../layouts/GameLayout';
-import ConfigLayout from '../../../layouts/ConfigLayout';
-import { useHangmanContext, HangmanProvider } from '../../../context/HangmanContext';
-import HangmanDrawing from '../../../components/games/Hangman/HangmanDrawing';
-import WordDisplay from '../../../components/games/Hangman/WordDisplay';
-import LetterKeyboard from '../../../components/games/Hangman/LetterKeyboard';
-import DifficultySelector from '../../../components/games/Wordle/DifficultySelector';
+import GameLayout from '../layouts/GameLayout';
+import ConfigLayout from '../layouts/ConfigLayout';
+import { useHangmanContext, HangmanProvider } from '../context/HangmanContext';
+import HangmanDrawing from '../components/games/Hangman/HangmanDrawing';
+import WordDisplay from '../components/games/Hangman/WordDisplay';
+import LetterKeyboard from '../components/games/Hangman/LetterKeyboard';
+import DifficultySelector from '../components/games/Wordle/DifficultySelector';
 
 const HangmanContent = () => {
   const {
@@ -152,7 +152,7 @@ const HangmanContent = () => {
   );
 };
 
-const HangmanPage = () => {
+const Hangman = () => {
   return (
     <HangmanProvider>
       <HangmanContent />
@@ -160,4 +160,4 @@ const HangmanPage = () => {
   );
 };
 
-export default HangmanPage;
+export default Hangman;

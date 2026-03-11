@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import WordlePage from './pages/games/Wordle/WordlePage'
-import ChronoPage from './pages/games/ChronoGuessr/ChronoPage'
-import HangmanPage from './pages/games/Hangman/HangmanPage'
+import Wordle from './games/Wordle'
+import Chrono from './games/Chrono'
+import Hangman from './games/Hangman'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/wordle" element={<WordlePage />} />
-        <Route path="/chrono" element={<ChronoPage />} />
-        <Route path="/hangman" element={<HangmanPage />} />
+        <Route path="/wordle" element={<Wordle />} />
+        <Route path="/chrono" element={<Chrono />} />
+        <Route path="/hangman" element={<Hangman />} />
       </Routes>
     </BrowserRouter>
   )
