@@ -1,61 +1,64 @@
 import { Link } from 'react-router-dom'
-import { Sun, Moon, Gamepad2 } from 'lucide-react'
+import { Sun, Moon } from 'lucide-react'
+import { useTheme } from '../context/ThemeContext'
+import IconButton from '../components/ui/IconButton'
 
 const Home = () => {
-  // Lista de juegos disponibles
+  const { isDark, toggleTheme } = useTheme()
   const games = [
-    { id: 1, name: 'Wordle', description: 'Adivina la palabra secreta de 5 letras', path: '/wordle' },
-    { id: 2, name: 'Sopa de Letras', description: 'Encuentra las palabras ocultas', disabled: true },
-    { id: 3, name: 'Sudoku', description: 'El clásico desafío matemático', disabled: true },
-    { id: 4, name: 'Crucigrama', description: 'Completa las palabras cruzadas', disabled: true }
+    { id: 1, name: 'WORDLE', description: 'Adivina la palabra secreta de N letras', path: '/wordle' },
+    { id: 2, name: 'SOPA_DE_LETRAS', description: 'Encuentra las palabras ocultas', disabled: true },
+    { id: 3, name: 'SUDOKU', description: 'El clásico desafío matemático', disabled: true },
+    { id: 4, name: 'CRUCIGRAMA', description: 'Completa las palabras cruzadas', disabled: true }
   ]
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div className="h-screen flex flex-col bg-white dark:bg-black text-black dark:text-white transition-none font-mono overflow-hidden">
       {/* Header */}
-      <header className="h-16 flex items-center justify-between px-6 border-b border-gray-200 dark:border-gray-800">
+      <header className="h-16 flex items-center justify-between px-6 border-b-2 border-black dark:border-white shrink-0">
         <div className="flex items-center gap-2">
-          <Gamepad2 className="text-blue-600 dark:text-blue-400" />
-          <span className="font-bold text-xl uppercase tracking-widest text-blue-600 dark:text-blue-400">TextGames</span>
+          <span className="font-bold text-xl tracking-tight uppercase">TEXT_GAMES</span>
         </div>
         
-        <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-          <Sun className="hidden dark:block w-5 h-5" />
-          <Moon className="block dark:hidden w-5 h-5" />
-        </button>
+        <IconButton 
+          icon={isDark ? Sun : Moon}
+          onClick={toggleTheme}
+          title={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+        />
       </header>
 
       {/* Main */}
-      <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-12">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-black mb-4 from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
-            TextGames
+      <main className="flex-1 overflow-auto flex flex-col items-center py-12 px-6">
+        <div className="text-center mb-16 space-y-2">
+          <h1 className="text-6xl font-black tracking-tighter uppercase">
+            TEXT_GAMES
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
-            juegos de letras y numeros
+          <p className="text-sm font-bold border-y border-black dark:border-white py-1 px-4 inline-block uppercase tracking-widest">
+            letras_y_numeros
           </p>
         </div>
 
         {/* Lista de Juegos */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-4xl">
           {games.map(game => (
             game.path && !game.disabled ? (
               <Link 
                 key={game.id} 
                 to={game.path}
-                className="p-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800/50 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/10 transition-all group"
+                className="p-8 border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all group relative overflow-hidden"
               >
-                <h3 className="text-xl font-bold mb-2 group-hover:text-blue-500 transition-colors">{game.name}</h3>
-                <p className="text-gray-600 dark:text-gray-400">{game.description}</p>
+                <h3 className="text-2xl font-black mb-2 group-hover:line-through">{game.name}</h3>
+                <p className="text-xs uppercase font-bold opacity-70">{game.description}</p>
+                <div className="absolute right-4 bottom-4 text-xs font-black">{"->"}</div>
               </Link>
             ) : (
               <div 
                 key={game.id} 
-                className="p-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 opacity-60 cursor-not-allowed"
+                className="p-8 border border-gray-200 dark:border-gray-800 opacity-40 grayscale flex flex-col justify-center"
               >
-                <h3 className="text-xl font-bold mb-2">{game.name}</h3>
-                <p className="text-gray-600 dark:text-gray-400">{game.description}</p>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Próximamente</span>
+                <h3 className="text-2xl font-black mb-2">{game.name}</h3>
+                <p className="text-xs uppercase font-bold">{game.description}</p>
+                <span className="mt-4 text-[10px] uppercase font-black border border-gray-300 dark:border-gray-700 w-fit px-2">PRÓXIMAMENTE</span>
               </div>
             )
           ))}
@@ -63,8 +66,8 @@ const Home = () => {
       </main>
 
       {/* Footer */}
-      <footer className="h-16 flex items-center justify-center border-t border-gray-200 dark:border-gray-800 text-sm text-gray-500">
-        <p>&copy; {new Date().getFullYear()} TextGames - Todos los derechos reservados</p>
+      <footer className="h-16 flex items-center justify-center border-t-2 border-black dark:border-white text-[10px] font-black uppercase tracking-widest shrink-0 bg-white dark:bg-black">
+        &copy; {new Date().getFullYear()} TEXT_GAMES &bull; ANALOG_EDITION
       </footer>
     </div>
   )

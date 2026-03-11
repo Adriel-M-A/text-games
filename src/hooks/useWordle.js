@@ -52,7 +52,7 @@ const useWordle = (solution, length = 5, dictionary = []) => {
       
       // Validar si es una palabra válida si hay diccionario
       if (dictionary.length > 0 && !dictionary.includes(currentGuess.toLowerCase())) {
-        setError('La palabra no está en el diccionario')
+        setError('La palabra no existe')
         return
       }
 

@@ -1,22 +1,22 @@
 import GameHeader from '../components/layout/GameHeader'
 
-const ConfigLayout = ({ children, title, onStart, startLabel = "¡EMPEZAR JUEGO!" }) => {
+const ConfigLayout = ({ children, title, onStart, startLabel = "EMPEZAR" }) => {
   return (
-    <div className="h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 overflow-hidden">
+    <div className="h-screen flex flex-col bg-white dark:bg-black text-black dark:text-white transition-colors duration-300 overflow-hidden font-mono">
       <GameHeader title={title} />
 
-      <main className="flex-1 overflow-auto flex flex-col items-center justify-center p-6 bg-gray-50/50 dark:bg-gray-900/50">
-        <div className="w-full max-w-2xl">
+      <main className="flex-1 overflow-auto flex flex-col items-center justify-center p-6 pb-24">
+        <div className="w-full max-w-xl border border-black dark:border-white p-6">
           {children}
         </div>
       </main>
 
-      <footer className="h-24 flex items-center justify-center px-6 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shrink-0">
+      <footer className="h-24 flex items-center justify-center px-6 border-t border-black dark:border-white bg-white dark:bg-black shrink-0">
         <button 
           onClick={onStart}
-          className="px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-xl transition-all shadow-xl shadow-blue-500/20 active:scale-95 flex items-center justify-center gap-3 animate-bounce-subtle"
+          className="px-12 py-3 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black font-black text-2xl transition-all active:scale-95 uppercase tracking-widest"
         >
-          {startLabel}
+          {startLabel === "EMPEZAR" ? "INICIAR PARTIDA" : startLabel}
         </button>
       </footer>
     </div>

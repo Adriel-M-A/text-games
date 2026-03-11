@@ -10,7 +10,7 @@ const BoardWordle = ({ guesses, currentGuess, maxAttempts = 6, length = 5 }) => 
 
   // Fila actual (si no se ha terminado el juego)
   if (rows.length < maxAttempts) {
-    rows.push(<Row key="current" word={currentGuess} length={length} />)
+    rows.push(<Row key="current" word={currentGuess} length={length} isCurrentRow={true} />)
   }
 
   // Filas vacías restantes
@@ -19,7 +19,7 @@ const BoardWordle = ({ guesses, currentGuess, maxAttempts = 6, length = 5 }) => 
   }
 
   return (
-    <div className="flex flex-col gap-2 p-4 bg-gray-50/50 dark:bg-gray-800/10 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-inner">
+    <div className="flex flex-col gap-1.5 bg-transparent">
       {rows}
     </div>
   )
